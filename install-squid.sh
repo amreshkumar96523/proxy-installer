@@ -51,5 +51,4 @@ echo "IPv4 Proxy: $IPV4:$PROXY_PORT"
 echo "IPv6 Proxy: [$IPV6]:$PROXY_PORT"
 echo "Username: $PROXY_USER"
 echo "Password: $PROXY_PASS"
-
 echo "========================================="
