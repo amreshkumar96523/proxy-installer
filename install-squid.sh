@@ -21,7 +21,7 @@ htpasswd -b -c /etc/squid/passwd $PROXY_USER $PROXY_PASS
 # Detect default interface
 DEFAULT_IFACE=$(ip route | grep '^default' | awk '{print $5}')
 
-# Detect IPv4 and IPv6
+# Detect IPv4 and IPv6 from default interface
 IPV4=$(ip -4 addr show dev $DEFAULT_IFACE | grep inet | awk '{print $2}' | cut -d'/' -f1 | head -n 1)
 IPV6=$(ip -6 addr show dev $DEFAULT_IFACE scope global | grep inet6 | awk '{print $2}' | cut -d'/' -f1 | head -n 1)
 
@@ -48,6 +48,7 @@ EOF
 systemctl restart squid
 systemctl enable squid
 
+# Output
 echo "========================================="
 echo "✅ Squid Proxy Installed Successfully!"
 echo "IPv4 Proxy: $IPV4:$PROXY_PORT"
