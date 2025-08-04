@@ -18,9 +18,12 @@ cp /etc/squid/squid.conf /etc/squid/squid.conf.bak
 # Create password file
 htpasswd -b -c /etc/squid/passwd $PROXY_USER $PROXY_PASS
 
+# Detect default interface
+DEFAULT_IFACE=$(ip route | grep '^default' | awk '{print $5}')
+
 # Detect IPv4 and IPv6
-IPV4=$(hostname -I | awk '{print $1}')
-IPV6=$(ip -6 addr show scope global | grep inet6 | awk '{print $2}' | head -n 1 | cut -d'/' -f1)
+IPV4=$(ip -4 addr show dev $DEFAULT_IFACE | grep inet | awk '{print $2}' | cut -d'/' -f1 | head -n 1)
+IPV6=$(ip -6 addr show dev $DEFAULT_IFACE scope global | grep inet6 | awk '{print $2}' | cut -d'/' -f1 | head -n 1)
 
 # Write new squid config
 cat > /etc/squid/squid.conf <<EOF
